@@ -7,16 +7,12 @@ import requests
 from rdkit import Chem
 from rdkit.Chem import AllChem
 from rdkit.Chem import ChemicalFeatures
-from rdkit.Chem import rdchem
 from rdkit.Chem import rdMolDescriptors
 from rdkit import RDConfig
 import sys
 import re
 import math
-import scipy
-from scipy.sparse import csr_matrix
 from scipy.sparse.csgraph import floyd_warshall
-from scipy.spatial import ConvexHull, convex_hull_plot_2d
 import collections
 import random
 
@@ -634,8 +630,8 @@ def get_smi(bead,mol):
     #Work out aromaticity by looking for lowercase c and heteroatoms
     ring_size = 0
     frag_size = 0
-    lc = re.compile('[cn([nH\])os]+')
-    lc = string_lst = ['c','\\[nH\\]','(?<!\\[)n','o']
+    #lc = re.compile('[cn([nH\])os]+')
+    string_lst = ['c','\\[nH\\]','(?<!\\[)n','o']
     lowerlist = re.findall(r"(?=("+'|'.join(string_lst)+r"))",bead_smi)
     
     #Construct test rings for aromatic fragments
@@ -862,10 +858,8 @@ def write_gro(mol_name,bead_types,coords0,gro_name):
     with open(gro_name,'w') as gro:
         gro.write('single molecule of {}\n'.format(mol_name))
         gro.write('{}\n'.format(len(bead_types)))
-        i = 1
         for bead,xyz in zip(bead_types,coords0):
             gro.write('{:5d}{:5}{:>5}{:5d}{:8.3f}{:8.3f}{:8.3f}\n'.format(1,mol_name,bead,i,xyz[0],xyz[1],xyz[2]))
-            i += 1
         gro.write('5.0 5.0 5.0')
 
 def get_virtual_sites(ring,coords,A_cg):
@@ -1067,7 +1061,7 @@ def write_itp(mol_name,bead_types,coords0,charges,all_smi,A_cg,itp_name):
         itp.write('MOL    2\n')
         virtual,real = write_atoms(itp,A_cg,mol_name,bead_types,charges,all_smi,coords0,ring_beads)
         bonds,constraints,dihedrals = write_bonds(itp,A_cg,ring_beads,real,virtual)
-        angles = write_angles(itp,bonds,constraints)
+        write_angles(itp,bonds,constraints)
         if dihedrals:
             write_dihedrals(itp,dihedrals,coords0)
         if virtual:
