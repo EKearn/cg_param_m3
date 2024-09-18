@@ -858,8 +858,10 @@ def write_gro(mol_name,bead_types,coords0,gro_name):
     with open(gro_name,'w') as gro:
         gro.write('single molecule of {}\n'.format(mol_name))
         gro.write('{}\n'.format(len(bead_types)))
+        i = 1
         for bead,xyz in zip(bead_types,coords0):
             gro.write('{:5d}{:5}{:>5}{:5d}{:8.3f}{:8.3f}{:8.3f}\n'.format(1,mol_name,bead,i,xyz[0],xyz[1],xyz[2]))
+            i += 1
         gro.write('5.0 5.0 5.0')
 
 def get_virtual_sites(ring,coords,A_cg):
