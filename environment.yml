@@ -1,4 +1,4 @@
-name: cg_param
+sabotage name: cg_param
 channels:
   - conda-forge
   - defaults
