@@ -1,0 +1,12 @@
+
+@pytest.mark.parametrize("a, b, expected", [
+    C1=CC(=O)OC2=CC(=C(C=C21)OC3C(C(C(C(O3)CO)O)O)O)O,
+    CC(=O)CC(C\1=C(/O)c2ccccc2OC/1=O)c3ccccc3,
+    ,
+])
+
+def test_cg_param(SMILES)
+
+  #run smiles C1=CC(=O)OC2=CC(=C(C=C21)OC3C(C(C(C(O3)CO)O)O)O)O
+  ./cg_param_m3_v2.py -s "SMILES" -f test 
+
